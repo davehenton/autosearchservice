@@ -1,0 +1,32 @@
+buildscript {
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+bootJar {
+    baseName = 'entrypoints'
+    version = 'final'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudDependencyVersion}"
+    }
+}
+
+dependencies {
+    compile project(":core")
+    compile project(":infrastructure")
+    compile "mysql:mysql-connector-java"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.cloud:spring-cloud-starter-aws"
+    compile "io.springfox:springfox-swagger-ui:${springfoxVersion}"
+    compile "io.springfox:springfox-swagger2:${springfoxVersion}"
+
+    compile "org.springframework.boot:spring-boot-configuration-processor"
+}
