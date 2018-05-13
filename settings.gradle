@@ -1,0 +1,4 @@
+rootProject.name = 'ums'
+include 'core'
+include 'infrastructure'
+include 'entrypoints'

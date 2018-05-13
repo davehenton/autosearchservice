@@ -1,0 +1,138 @@
+group 'com.travistrle'
+version '1.0.0'
+
+ext {
+    apacheCommonCsvVersion = '1.5'
+    awsJavaSdkDynamoDbVersion = '1.11.210'
+    awsJavaCoreVersion = '1.11.210'
+    byteBuddyVersion = '1.7.9'
+    checkStyleVersion = '8.0'
+    commonCollection4Version = '4.1'
+    commonLang3Version = '3.6'
+    commonsLoggingVersion = '1.2'
+    commonIoVersion = '2.4'
+    dynamodbLocalVersion = '1.11.86'
+    guavaVersion = '22.0'
+    gsonVersion = '2.6.2'
+    h2DatabaseVersion = '1.4.196'
+    ioReactivexRxjavaVersion = '1.1.2'
+    jacocoVersion = '0.8.0'
+    javassistVersion = '3.22.0-GA'
+    jbossLoggingVersion = '3.3.1.Final'
+    log4jVersion = '2.6.2'
+    mockitoCoreVersion = '2.13.0'
+    objenesisVersion = '2.6'
+    sqlite4javaVersion = '1.0.392'
+    snakeYamlVersion = '1.19'
+    springBootVersion = '2.0.0.RELEASE'
+    springCloudDependencyVersion = 'Finchley.M8'
+    springCloudAwsVersion = '1.2.2.RELEASE'
+    springFrameworkVersion = '5.0.4.RELEASE'
+    springfoxVersion = '2.7.0'
+    testngVersion = '6.11'
+
+    libraries = [
+            awsdynamodb: "com.amazonaws:aws-java-sdk-dynamodb:${awsJavaSdkDynamoDbVersion}",
+            awssdkcore : "com.amazonaws:aws-java-sdk-core:${awsJavaCoreVersion}",
+            byteBuddy  : "net.bytebuddy:byte-buddy:${byteBuddyVersion}",
+            commonLang : "org.apache.commons:commons-lang3:${commonLang3Version}",
+            commonIo   : "commons-io:commons-io:${commonIoVersion}",
+            javassist  : "org.javassist:javassist:${javassistVersion}",
+            jboss      : "org.jboss.logging:jboss-logging:${jbossLoggingVersion}",
+            log4j      : "org.apache.logging.log4j:log4j-api:${log4jVersion}",
+            mockito    : "org.mockito:mockito-core:${mockitoCoreVersion}",
+            objenesis  : "org.objenesis:objenesis:${objenesisVersion}",
+            snakeyaml  : "org.yaml:snakeyaml:${snakeYamlVersion}"
+    ]
+}
+
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            // fail eagerly on version conflict (includes transitive dependencies)
+            // e.g. multiple different versions of the same dependency (group and name are equal)
+            failOnVersionConflict()
+
+            // Auto force all of our explicit dependencies.
+            libraries.each { k, v -> force(v) }
+            force("io.reactivex:rxjava:${ioReactivexRxjavaVersion}")
+            force("com.google.code.gson:gson:${gsonVersion}")
+            force("commons-logging:commons-logging:${commonsLoggingVersion}")
+            // cache dynamic versions for 10 minutes
+            cacheDynamicVersionsFor 10 * 60, 'seconds'
+            // don't cache changing modules at all
+            cacheChangingModulesFor 0, 'seconds'
+        }
+    }
+
+    buildscript {
+        repositories {
+            maven { url "http://central.maven.org/maven2/" }
+        }
+    }
+
+    repositories {
+        maven { url "http://central.maven.org/maven2/" }
+        maven { url "https://repo.spring.io/libs-milestone" }
+        maven { url 'http://dynamodb-local.s3-website-us-west-2.amazonaws.com/release' }
+    }
+
+    apply plugin: 'checkstyle'
+    apply plugin: "jacoco"
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+subprojects {
+
+    checkstyle {
+        toolVersion = "$checkStyleVersion"
+        configFile rootProject.file('config/checkstyle/checkstyle.xml')
+        maxWarnings = 0
+        maxErrors = 0
+        ignoreFailures = false
+        showViolations = true
+    }
+
+    jacoco {
+        toolVersion = "$jacocoVersion"
+    }
+
+    jacocoTestReport {
+        afterEvaluate {
+            classDirectories = files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: ['**/models/**', '**/repositories/**'])
+            })
+        }
+
+        reports {
+            csv.enabled false
+            xml.enabled true
+            xml.destination file("${buildDir}/reports/jacoco/jacoco.xml")
+            html.enabled true
+            html.destination file("${buildDir}/reports/jacoco")
+        }
+    }
+
+    dependencies {
+        compile "com.google.guava:guava:${guavaVersion}"
+        compile "org.apache.commons:commons-lang3:${commonLang3Version}"
+        compile "org.apache.commons:commons-collections4:${commonCollection4Version}"
+
+
+        testCompile "org.testng:testng:${testngVersion}"
+        testCompile "org.mockito:mockito-core:${mockitoCoreVersion}"
+    }
+
+    test {
+        useTestNG()
+        jacoco {
+            append = false
+            destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+            classDumpDir = file("$buildDir/jacoco/classpathdumps")
+            excludes = ['**/models/**']
+        }
+    }
+}

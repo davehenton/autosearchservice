@@ -1,0 +1,11 @@
+group 'com.travistrle'
+version '1.0.0'
+
+jar {
+    baseName = 'core'
+    version = '1.0.0'
+}
+
+dependencies {
+    compile "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+}
