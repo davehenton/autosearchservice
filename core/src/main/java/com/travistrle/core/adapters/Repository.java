@@ -10,7 +10,7 @@ public interface Repository<T extends Entity> {
    *
    * @param entity {@link T}
    */
-  void create(T entity);
+  boolean create(T entity);
 
   /**
    * Create list of entities.
@@ -48,7 +48,7 @@ public interface Repository<T extends Entity> {
    *
    * @param entity {@link T}
    */
-  void update(T entity);
+  boolean update(T entity);
 
   /**
    * Update list of entities.
@@ -64,7 +64,7 @@ public interface Repository<T extends Entity> {
    *
    * @param entity {@link T}
    */
-  void delete(T entity);
+  boolean delete(T entity);
 
   /**
    * Delete entities.
