@@ -6,14 +6,14 @@ import java.util.List;
 public interface Repository<T extends Entity> {
 
   /**
-   * Create the model to the TransactionalStore.
+   * Create a new entity.
    *
    * @param entity {@link T}
    */
   void create(T entity);
 
   /**
-   * Create the entities to the TransactionalStore.
+   * Create list of entities.
    *
    * @param entities {@link Iterable}
    * @return {@link Integer}
@@ -21,27 +21,12 @@ public interface Repository<T extends Entity> {
   int create(Iterable<T> entities);
 
   /**
-   * Update the model to the TransactionalStore.
-   *
-   * @param entity {@link T}
-   */
-  void update(T entity);
-
-  /**
-   * Update the entities to the TransactionalStore.
-   *
-   * @param entities {@link Iterable}
-   * @return {@link Integer}
-   */
-  int update(Iterable<T> entities);
-
-  /**
-   * Get the model to the TransactionalStore.
+   * Get an entity.
    *
    * @param entity {@link T}
    * @return {@link T}
    */
-  T get(T entity);
+  T read(T entity);
 
   /**
    * Batch get entities.
@@ -49,28 +34,45 @@ public interface Repository<T extends Entity> {
    * @param entities {@link Iterable}
    * @return {@link List}
    */
-  List<T> get(final Iterable<T> entities);
+  List<T> read(final Iterable<T> entities);
 
   /**
    * Get all entities.
    *
    * @return {@link List}
    */
-  List<T> getAll();
+  List<T> readAll();
+
+  /**
+   * Update an existing entity.
+   *
+   * @param entity {@link T}
+   */
+  void update(T entity);
+
+  /**
+   * Update list of entities.
+   *
+   * @param entities {@link Iterable}
+   * @return {@link Integer}
+   */
+  int update(Iterable<T> entities);
 
 
   /**
-   * Delete an model.
+   * Delete an entity.
    *
    * @param entity {@link T}
    */
   void delete(T entity);
 
   /**
-   * Delete an entities.
+   * Delete entities.
    *
    * @param entities {@link List}
    * @return {@link Integer}
    */
   int delete(Iterable<T> entities);
+
+
 }
