@@ -12,8 +12,13 @@ public class UserManagerImpl implements UserManager {
   }
 
   @Override
-  public void create(User entity) {
+  public boolean validate(User entity) {
+    return false;
+  }
 
+  @Override
+  public boolean create(User entity) {
+    return false;
   }
 
   @Override
@@ -22,13 +27,13 @@ public class UserManagerImpl implements UserManager {
   }
 
   @Override
-  public void update(User entity) {
-
+  public boolean update(User entity) {
+    return false;
   }
 
   @Override
-  public void delete(User entity) {
-
+  public boolean delete(User entity) {
+    return false;
   }
 
   @Override

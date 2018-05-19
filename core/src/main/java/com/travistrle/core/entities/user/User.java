@@ -96,4 +96,57 @@ public class User extends Entity {
     sb.append('}');
     return sb.toString();
   }
+
+  public static final class Builder {
+
+    private User user;
+
+    public Builder() {
+      user = new User();
+    }
+
+    public Builder withCreatedDate(Long createdDate) {
+      user.setCreatedDate(createdDate);
+      return this;
+    }
+
+    public Builder withUpdatedDate(Long updatedDate) {
+      user.setUpdatedDate(updatedDate);
+      return this;
+    }
+
+    public Builder withEmail(String email) {
+      user.setEmail(email);
+      return this;
+    }
+
+    public Builder withFirstName(String firstName) {
+      user.setFirstName(firstName);
+      return this;
+    }
+
+    public Builder withLastName(String lastName) {
+      user.setLastName(lastName);
+      return this;
+    }
+
+    public Builder withPhoneNumber(String phoneNumber) {
+      user.setPhoneNumber(phoneNumber);
+      return this;
+    }
+
+    public Builder withDateOfBirth(ZonedDateTime dateOfBirth) {
+      user.setDateOfBirth(dateOfBirth);
+      return this;
+    }
+
+    public Builder withContactMethod(ContactMethod contactMethod) {
+      user.setContactMethod(contactMethod);
+      return this;
+    }
+
+    public User build() {
+      return user;
+    }
+  }
 }

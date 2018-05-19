@@ -1,12 +1,24 @@
 package com.travistrle.core.usecases.group;
 
+import com.travistrle.core.adapters.group.GroupRepository;
 import com.travistrle.core.entities.group.Group;
 
 public class GroupManagerImpl implements GroupManager {
 
-  @Override
-  public void create(Group entity) {
+  private final GroupRepository repository;
 
+  public GroupManagerImpl(GroupRepository repository) {
+    this.repository = repository;
+  }
+
+  @Override
+  public boolean validate(Group entity) {
+    return false;
+  }
+
+  @Override
+  public boolean create(Group entity) {
+    return false;
   }
 
   @Override
@@ -15,13 +27,13 @@ public class GroupManagerImpl implements GroupManager {
   }
 
   @Override
-  public void update(Group entity) {
-
+  public boolean update(Group entity) {
+    return false;
   }
 
   @Override
-  public void delete(Group entity) {
-
+  public boolean delete(Group entity) {
+    return false;
   }
 
   @Override

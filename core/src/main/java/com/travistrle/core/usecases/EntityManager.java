@@ -6,11 +6,19 @@ import java.util.List;
 public interface EntityManager<T extends Entity> {
 
   /**
+   * validate entity.
+   *
+   * @param entity {@link T}
+   * @return {@link Boolean}
+   */
+  boolean validate(T entity);
+
+  /**
    * Create a new entity.
    *
    * @param entity {@link T}
    */
-  void create(T entity);
+  boolean create(T entity);
 
   /**
    * Get an entity.
@@ -25,7 +33,7 @@ public interface EntityManager<T extends Entity> {
    *
    * @param entity {@link T}
    */
-  void update(T entity);
+  boolean update(T entity);
 
 
   /**
@@ -33,7 +41,7 @@ public interface EntityManager<T extends Entity> {
    *
    * @param entity {@link T}
    */
-  void delete(T entity);
+  boolean delete(T entity);
 
   /**
    * Delete entities.

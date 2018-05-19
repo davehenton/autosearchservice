@@ -16,14 +16,6 @@ public class Group extends Entity {
   }
 
   @Override
-  public String toString() {
-    final StringBuffer sb = new StringBuffer("Group{");
-    sb.append("name='").append(name).append('\'');
-    sb.append('}');
-    return sb.toString();
-  }
-
-  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -39,5 +31,42 @@ public class Group extends Entity {
   public int hashCode() {
 
     return Objects.hash(getName());
+  }
+
+
+  @Override
+  public String toString() {
+    final StringBuffer sb = new StringBuffer("Group{");
+    sb.append("name='").append(name).append('\'');
+    sb.append('}');
+    return sb.toString();
+  }
+
+  public static final class Builder {
+
+    private Group group;
+
+    public Builder() {
+      group = new Group();
+    }
+
+    public Builder withCreatedDate(Long createdDate) {
+      group.setCreatedDate(createdDate);
+      return this;
+    }
+
+    public Builder withUpdatedDate(Long updatedDate) {
+      group.setUpdatedDate(updatedDate);
+      return this;
+    }
+
+    public Builder withName(String name) {
+      group.setName(name);
+      return this;
+    }
+
+    public Group build() {
+      return group;
+    }
   }
 }
