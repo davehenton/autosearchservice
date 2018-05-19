@@ -1,8 +1,15 @@
 package com.travistrle.core.usecases.user;
 
+import com.travistrle.core.adapters.user.UserRepository;
 import com.travistrle.core.entities.user.User;
 
 public class UserManagerImpl implements UserManager {
+
+  private final UserRepository repository;
+
+  public UserManagerImpl(UserRepository repository) {
+    this.repository = repository;
+  }
 
   @Override
   public void create(User entity) {
