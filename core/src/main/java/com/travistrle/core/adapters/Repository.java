@@ -1,8 +1,9 @@
 package com.travistrle.core.adapters;
 
+import com.travistrle.core.entities.Entity;
 import java.util.List;
 
-public interface Repository<T> {
+public interface Repository<T extends Entity> {
 
   /**
    * Create the model to the TransactionalStore.
