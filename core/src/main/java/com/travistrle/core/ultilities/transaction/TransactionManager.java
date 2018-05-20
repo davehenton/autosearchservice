@@ -1,14 +1,41 @@
 package com.travistrle.core.ultilities.transaction;
 
-public interface TransactionManager {
+public class TransactionManager {
+
+  private static final ThreadLocal<Context> context;
+
+  static {
+    context = new ThreadLocal<>();
+  }
 
   /**
-   * start transaction.
+   * start a new transaction.
    */
-  void startTransaction();
+  public static void startTransaction() {
+    context.set(new Context());
+  }
+
+  /**
+   * Get current transaction id.
+   */
+  public static String getTransactionId() {
+    return context.get().getTransactionId();
+  }
 
   /**
    * end transaction.
    */
-  void endTransaction();
+  public static void endTransaction() {
+    context.remove();
+  }
+
+  /**
+   * audit value.
+   *
+   * @param key {@link String}
+   * @param value {@link T}
+   */
+  public <T extends Object> void audit(String key, T value) {
+    context.get().audit(key, value);
+  }
 }
