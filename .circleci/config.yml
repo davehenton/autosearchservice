@@ -43,6 +43,6 @@ jobs:
           name: Build and run test
           command: |
             gradle clean build jacocoTestReport;
-            mkdir /tmp/artifacts/core;mv core/build/reports/* /tmp/artifacts/core;
+            mkdir -p /tmp/artifacts/core;mv core/build/reports/* /tmp/artifacts/core;
       - store_artifacts:
           path: /tmp/artifacts
