@@ -44,8 +44,8 @@ jobs:
           command: |
             gradle clean build jacocoTestReport;
             mkdir /tmp/artifacts;
-            mv infrastructure/build/reports/* /tmp/artifacts/infrastructure | true;
-            mv core/build/reports/* /tmp/artifacts/core | true;
-            mv entrypoints/build/reports/* /tmp/artifacts/entrypoints | true
+            mv infrastructure/build/reports/* /tmp/artifacts/infrastructure 2>/dev/null;
+            mv core/build/reports/* /tmp/artifacts/core 2>/dev/null;
+            mv entrypoints/build/reports/* /tmp/artifacts/entrypoints 2>/dev/null
       - store_artifacts:
           path: /tmp/artifacts
