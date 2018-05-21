@@ -44,7 +44,7 @@ jobs:
           command: |
             gradle clean build jacocoTestReport;
             mkdir -p /tmp/artifacts/core;cp -af core/build/reports/* /tmp/artifacts/core;
-            mkdir -p test-results/core;cp -af core/build/reports/* test-results/core;
+            mkdir -p /home/circleci/repo/test-results/core;cp -af core/build/reports/* /home/circleci/repo/test-results/core;
       - store_artifacts:
           path: /tmp/artifacts
       - store_test_results:
