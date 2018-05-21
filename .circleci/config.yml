@@ -39,4 +39,13 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: gradle test
+      - run:
+          name: build and run test
+          command: |
+            gradle clean build jacocoTestReport;
+            mkdir /tmp/artifacts;
+            mv infrastructure/build/reports/* /tmp/artifacts/infrastructure;
+            mv core/build/reports/* /tmp/artifacts/core;
+            mv entrypoints/build/reports/* /tmp/artifacts/entrypoints
+      - store_artifacts:
+          path: /tmp/artifacts
