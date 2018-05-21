@@ -80,7 +80,6 @@ public class User extends Entity {
 
   @Override
   public int hashCode() {
-
     return Objects.hash(getEmail());
   }
 
