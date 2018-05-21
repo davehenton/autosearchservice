@@ -40,12 +40,12 @@ jobs:
 
       # run tests!
       - run:
-          name: build and run test
+          name: Build and run test
           command: |
             gradle clean build jacocoTestReport;
             mkdir /tmp/artifacts;
-            mv infrastructure/build/reports/* /tmp/artifacts/infrastructure;
-            mv core/build/reports/* /tmp/artifacts/core;
-            mv entrypoints/build/reports/* /tmp/artifacts/entrypoints
+            mv infrastructure/build/reports/* /tmp/artifacts/infrastructure | true;
+            mv core/build/reports/* /tmp/artifacts/core | true;
+            mv entrypoints/build/reports/* /tmp/artifacts/entrypoints | true
       - store_artifacts:
           path: /tmp/artifacts
