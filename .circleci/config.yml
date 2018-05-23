@@ -47,7 +47,6 @@ jobs:
           name: Upload Code Coverage to CodeClimate
           environment:
             CC_TEST_REPORTER_ID: a39e969cb57292d7b07afeaf6a2098bae2f5d855879d488f3d825f282f9e09b6
-            CC_TEST_REPORTER_COVERAGE_ENDPOINT: https://api.codeclimate.com/v1/test_reports
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
