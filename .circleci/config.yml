@@ -43,14 +43,6 @@ jobs:
           name: Build and run test
           command: |
             gradle clean build jacocoTestReport;
-            mkdir -p artifacts/core;cp -af core/build/reports/* artifacts/core;
-            mkdir -p /home/circleci/repo/test-results/core;cp -af core/build/reports/* /home/circleci/repo/test-results/core;
-            mkdir -p coverage
-            JACOCO_SOURCE_PATH=core/src/main/java ./cc-test-reporter format-coverage core/build/reports/jacoco/jacoco.xml --input-type jacoco --output coverage/codeclimate.core.json;
-            JACOCO_SOURCE_PATH=infrastructure/src/main/java ./cc-test-reporter format-coverage infrastructure/build/reports/jacoco/jacoco.xml --input-type jacoco --output coverage/codeclimate.infrastructure.json;
-            JACOCO_SOURCE_PATH=entrypoints/src/main/java ./cc-test-reporter format-coverage entrypoints/build/reports/jacoco/jacoco.xml --input-type jacoco --output coverage/codeclimate.entrypoints.json | true
-            ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
-            ./cc-test-reporter upload-coverage  --input coverage/codeclimate.json --insecure
       - run:
           name: Upload Code Coverage to CodeClimate
           environment:
@@ -59,6 +51,14 @@ jobs:
           command: |
             url -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
+            mkdir -p artifacts/core;cp -af core/build/reports/* artifacts/core;
+            mkdir -p /home/circleci/repo/test-results/core;cp -af core/build/reports/* /home/circleci/repo/test-results/core;
+            mkdir -p coverage
+            JACOCO_SOURCE_PATH=core/src/main/java ./cc-test-reporter format-coverage core/build/reports/jacoco/jacoco.xml --input-type jacoco --output coverage/codeclimate.core.json;
+            JACOCO_SOURCE_PATH=infrastructure/src/main/java ./cc-test-reporter format-coverage infrastructure/build/reports/jacoco/jacoco.xml --input-type jacoco --output coverage/codeclimate.infrastructure.json;
+            JACOCO_SOURCE_PATH=entrypoints/src/main/java ./cc-test-reporter format-coverage entrypoints/build/reports/jacoco/jacoco.xml --input-type jacoco --output coverage/codeclimate.entrypoints.json | true
+            ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
+            ./cc-test-reporter upload-coverage  --input coverage/codeclimate.json --insecure
       - store_artifacts:
           path: /tmp/artifacts
       - store_test_results:
