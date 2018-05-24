@@ -103,7 +103,7 @@ subprojects {
     jacocoTestReport {
         afterEvaluate {
             classDirectories = files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: ['**/models/**', '**/repositories/**'])
+                fileTree(dir: it, exclude: ['**/entities/**', '**/adapters/**'])
             })
         }
 
