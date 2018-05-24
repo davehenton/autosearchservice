@@ -1,25 +1,17 @@
-# Java Gradle CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
     environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
+        # Customize the JVM maximum heap limit
+        JVM_OPTS: -Xmx3200m
+        TERM: dumb
+        CC_TEST_REPORTER_ID: a39e969cb57292d7b07afeaf6a2098bae2f5d855879d488f3d825f282f9e09b6
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
 
     steps:
       - checkout
@@ -45,8 +37,6 @@ jobs:
             gradle clean build jacocoTestReport;
       - run:
           name: Upload Code Coverage to CodeClimate
-          environment:
-            CC_TEST_REPORTER_ID: a39e969cb57292d7b07afeaf6a2098bae2f5d855879d488f3d825f282f9e09b6
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
@@ -55,7 +45,7 @@ jobs:
             mkdir -p coverage
             JACOCO_SOURCE_PATH=core/src/main/java ./cc-test-reporter format-coverage core/build/reports/jacoco/jacoco.xml --input-type jacoco --output coverage/codeclimate.core.json;
             ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
-            ./cc-test-reporter upload-coverage  --input coverage/codeclimate.json --insecure
+            ./cc-test-reporter upload-coverage  --input coverage/codeclimate.json
       - store_artifacts:
           path: /tmp/artifacts
       - store_test_results:
