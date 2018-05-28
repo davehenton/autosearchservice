@@ -6,17 +6,17 @@ public class LoggerTest {
 
   @Test
   public void testLog() {
-    Logger.info("Truong Test Message info");
-    Logger.error("Truong Test Message error");
-    Logger.debug("Truong Test Message debug");
-    Logger.warn("Truong Test Message warn");
+    Logger.info("UmsTest Message info");
+    Logger.error("UmsTest Message error");
+    Logger.debug("UmsTest Message debug");
+    Logger.warn("UmsTest Message warn");
   }
 
   @Test
   public void testLogWithFormatMessage() {
-    Logger.info("Truong Test Message info {} {}", "test", 1);
-    Logger.error("Truong Test Message error {} {}", "test", 1);
-    Logger.debug("Truong Test Message debug {} {}", "test", 1);
-    Logger.warn("Truong Test Message warn {} {}", "test", 1);
+    Logger.info("UmsTest Message info {} {}", "test", 1);
+    Logger.error("UmsTest Message error {} {}", "test", 1);
+    Logger.debug("UmsTest Message debug {} {}", "test", 1);
+    Logger.warn("UmsTest Message warn {} {}", "test", 1);
   }
 }

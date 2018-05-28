@@ -19,7 +19,7 @@ ext {
     jacocoVersion = '0.8.0'
     javassistVersion = '3.22.0-GA'
     jbossLoggingVersion = '3.3.1.Final'
-    log4jVersion = '2.6.2'
+    log4jVersion = '2.11.0'
     mockitoCoreVersion = '2.13.0'
     objenesisVersion = '2.6'
     sqlite4javaVersion = '1.0.392'
@@ -139,6 +139,6 @@ subprojects {
     }
 
     test.doFirst {
-        systemProperty "log4j.configurationfile", 'build/libs'
+        systemProperty "log4j.configurationfile", 'log4j2.xml'
     }
 }
