@@ -1,6 +1,10 @@
 package com.travistrle.core.ultilities.transaction;
 
-public class TransactionManager {
+public final class TransactionManager {
+
+  private TransactionManager() {
+
+  }
 
   private static final ThreadLocal<Context> context;
 
@@ -30,12 +34,21 @@ public class TransactionManager {
   }
 
   /**
-   * audit value.
+   * Audit a value to transaction.
    *
-   * @param key {@link String}
+   * @param key {@link AuditKey}
    * @param value {@link T}
    */
-  public <T extends Object> void audit(String key, T value) {
-    context.get().audit(key, value);
+  public static <T extends Object> void audit(AuditKey key, T value) {
+    context.get().audit(key.getAuditKey(), value);
+  }
+
+  /**
+   * Get all audit keys in context.
+   *
+   * @return {@link String}
+   */
+  public static String getAuditValues() {
+    return context.get().getAudits();
   }
 }

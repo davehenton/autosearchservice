@@ -47,6 +47,6 @@ jobs:
             ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
             ./cc-test-reporter upload-coverage  --input coverage/codeclimate.json
       - store_artifacts:
-          path: /tmp/artifacts
+          path: artifacts
       - store_test_results:
           path: test-results

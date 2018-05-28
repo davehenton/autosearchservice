@@ -1,19 +1,24 @@
 package com.travistrle.core.ultilities.transaction;
 
 import com.travistrle.core.ultilities.CommonSymbols;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.TreeMap;
 import java.util.UUID;
 
 public class Context {
 
-  private String transactionId;
-  private Map<String, String> audits;
+  public static final String TRANSACTION_ID = "transactionId";
 
+  private final String transactionId;
+  private final Map<String, String> audits;
+
+  /**
+   * Initialize Context.
+   */
   public Context() {
     transactionId = UUID.randomUUID().toString();
-    audits = new HashMap<>();
+    audits = new TreeMap<>();
+
   }
 
   public String getTransactionId() {
@@ -26,16 +31,20 @@ public class Context {
    * @return {@link Map}
    */
   public Map<String, String> getRawAudits() {
-    return new HashMap<>();
+    return new TreeMap<>(audits);
   }
 
   /**
-   * Get all audits with format key2=1 key2=2.
+   * Get all audits with format key1=1 key2=2.
    *
    * @return {@link String}
    */
-  public String getAudis() {
+  public String getAudits() {
     StringBuilder sb = new StringBuilder();
+    sb.append(TRANSACTION_ID)
+        .append(CommonSymbols.EQUAL)
+        .append(transactionId)
+        .append(CommonSymbols.SPACE);
     audits.entrySet().forEach(
         audit -> sb.append(audit.getKey())
             .append(CommonSymbols.EQUAL)
@@ -53,33 +62,5 @@ public class Context {
    */
   public <T extends Object> void audit(String key, T value) {
     audits.putIfAbsent(key, value.toString());
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof Context)) {
-      return false;
-    }
-    Context context = (Context) o;
-    return Objects.equals(getTransactionId(), context.getTransactionId())
-        && Objects.equals(getRawAudits(), context.getRawAudits());
-  }
-
-  @Override
-  public int hashCode() {
-
-    return Objects.hash(getTransactionId());
-  }
-
-  @Override
-  public String toString() {
-    final StringBuffer sb = new StringBuffer("Context{");
-    sb.append("transactionId='").append(transactionId).append('\'');
-    sb.append(", audits=").append(audits);
-    sb.append('}');
-    return sb.toString();
   }
 }

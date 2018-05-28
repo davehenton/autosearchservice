@@ -1,7 +1,11 @@
 package com.travistrle.core.ultilities;
 
-public class CommonSymbols {
+public final class CommonSymbols {
 
-  public static String EQUAL = "=";
-  public static String SPACE = " ";
+  private CommonSymbols() {
+
+  }
+
+  public static final String EQUAL = "=";
+  public static final String SPACE = " ";
 }

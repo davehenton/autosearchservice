@@ -1,4 +1,4 @@
-package com.travistrle.core.ultilities.audit;
+package com.travistrle.core.ultilities.transaction;
 
 public interface AuditKey {
 
