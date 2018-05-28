@@ -15,3 +15,4 @@ User Management System
 1. [Clean Architecture Uncle Bob](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
 2. [Clean Architecture on Medium](https://medium.com/@dmilicic/a-detailed-guide-on-developing-android-apps-using-the-clean-architecture-pattern-d38d71e94029)
 3. [Transaction Audit with Thread Local](https://dzone.com/articles/painless-introduction-javas-threadlocal-storage)
+4. [Log4j2 Configuration](https://logging.apache.org/log4j/2.x/manual/configuration.html)

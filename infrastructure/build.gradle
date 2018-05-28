@@ -10,7 +10,6 @@ dependencies {
     compile project(":core")
     compile "com.amazonaws:aws-java-sdk-dynamodb:${awsJavaSdkDynamoDbVersion}"
     compile "org.apache.commons:commons-csv:${apacheCommonCsvVersion}"
-    compile "org.apache.logging.log4j:log4j-core:${log4jVersion}"
     compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
     compile "org.springframework:spring-context:${springFrameworkVersion}"
 

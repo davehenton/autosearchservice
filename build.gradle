@@ -40,6 +40,7 @@ ext {
             javassist  : "org.javassist:javassist:${javassistVersion}",
             jboss      : "org.jboss.logging:jboss-logging:${jbossLoggingVersion}",
             log4j      : "org.apache.logging.log4j:log4j-api:${log4jVersion}",
+            log4jCore  : "org.apache.logging.log4j:log4j-core:${log4jVersion}",
             mockito    : "org.mockito:mockito-core:${mockitoCoreVersion}",
             objenesis  : "org.objenesis:objenesis:${objenesisVersion}",
             snakeyaml  : "org.yaml:snakeyaml:${snakeYamlVersion}"
@@ -120,7 +121,8 @@ subprojects {
         compile "com.google.guava:guava:${guavaVersion}"
         compile "org.apache.commons:commons-lang3:${commonLang3Version}"
         compile "org.apache.commons:commons-collections4:${commonCollection4Version}"
-
+        compile "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+        compile "org.apache.logging.log4j:log4j-api:${log4jVersion}"
 
         testCompile "org.testng:testng:${testngVersion}"
         testCompile "org.mockito:mockito-core:${mockitoCoreVersion}"
@@ -134,5 +136,9 @@ subprojects {
             classDumpDir = file("$buildDir/jacoco/classpathdumps")
             excludes = ['**/models/**']
         }
+    }
+
+    test.doFirst {
+        systemProperty "log4j.configurationfile", 'build/libs'
     }
 }
