@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 
 public final class Logger {
 
-  private static final String UMS_LOG_INSTANCE = "ums";
+  private static final String UMS_LOG_INSTANCE = "UMS";
   private static final org.apache.logging.log4j.Logger logger = LogManager
       .getLogger(UMS_LOG_INSTANCE);
 

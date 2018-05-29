@@ -53,12 +53,14 @@ public class TransactionManagerTest {
     for (Future<String> result : results) {
       Map<String, String> map = parseAuditValues(result.get());
       Assert.assertEquals(map.size(), 4);
-      Assert.assertNotNull(map.get(Context.TRANSACTION_ID), "transactionId must be not null");
-      Assert.assertFalse(transactionIds.contains(map.get(Context.TRANSACTION_ID)),
+      Assert.assertNotNull(map.get(CommonAuditKey.TRANSACTION_ID.getAuditKey()),
+          "transactionId must be not null");
+      Assert.assertFalse(
+          transactionIds.contains(map.get(CommonAuditKey.TRANSACTION_ID.getAuditKey())),
           "transactionId must be unique");
-      Assert.assertEquals(map.get(Context.TRANSACTION_ID),
+      Assert.assertEquals(map.get(CommonAuditKey.TRANSACTION_ID.getAuditKey()),
           map.get(MockAuditKey.TEST_TRANSACTION_ID.getAuditKey()));
-      transactionIds.add(map.get(Context.TRANSACTION_ID));
+      transactionIds.add(map.get(CommonAuditKey.TRANSACTION_ID.getAuditKey()));
       Assert.assertNotNull(map.get(MockAuditKey.TEST_KEY_1.getAuditKey()),
           "transaction must have key 1");
       Assert.assertNotNull(map.get(MockAuditKey.TEST_KEY_2.getAuditKey()),

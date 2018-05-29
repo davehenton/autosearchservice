@@ -7,8 +7,6 @@ import java.util.UUID;
 
 public class Context {
 
-  public static final String TRANSACTION_ID = "transactionId";
-
   private final String transactionId;
   private final Map<String, String> audits;
 
@@ -41,7 +39,7 @@ public class Context {
    */
   public String getAudits() {
     StringBuilder sb = new StringBuilder();
-    sb.append(TRANSACTION_ID)
+    sb.append(CommonAuditKey.TRANSACTION_ID.getAuditKey())
         .append(CommonSymbols.EQUAL)
         .append(transactionId)
         .append(CommonSymbols.SPACE);
