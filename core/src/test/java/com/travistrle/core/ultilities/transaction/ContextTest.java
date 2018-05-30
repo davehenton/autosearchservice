@@ -37,13 +37,13 @@ public class ContextTest {
   public void testGetAudits() {
     Context context = new Context();
     int size = 4;
-    for (int i = 1; i <= size; i++) {
+    for (int i = 0; i < size; i++) {
       context.audit(String.format("a%d", i), String.format("value%d", i));
     }
 
     String[] tokens = context.getAudits().split(CommonSymbols.SPACE);
-    Assert.assertEquals(tokens.length, size + 1);
-    for (int i = 1; i <= size; i++) {
+    Assert.assertEquals(tokens.length, size);
+    for (int i = 0; i < size; i++) {
       String[] keys = tokens[i].split(CommonSymbols.EQUAL);
       Assert.assertEquals(keys[0], String.format("a%d", i));
       Assert.assertEquals(keys[1], String.format("value%d", i));

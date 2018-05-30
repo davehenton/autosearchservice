@@ -4,10 +4,8 @@ import com.travistrle.core.ultilities.CommonSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -23,12 +21,7 @@ public class TransactionManagerTest {
     TransactionManager.audit(MockAuditKey.TEST_KEY_1, index);
     TransactionManager.audit(MockAuditKey.TEST_KEY_2, String.format("value2:%d", index));
     String ret = TransactionManager.getAuditValues();
-    StringBuilder sb = new StringBuilder()
-        .append(MockAuditKey.TEST_TRANSACTION_ID.getAuditKey())
-        .append(CommonSymbols.EQUAL)
-        .append(TransactionManager.getTransactionId());
-    TransactionManager.endTransaction();
-    return ret + sb.toString();
+    return ret;
   }
 
   private Map<String, String> parseAuditValues(String auditValues) {
@@ -48,19 +41,10 @@ public class TransactionManagerTest {
     ExecutorService executor = Executors.newFixedThreadPool(size);
     final int[] indexes = {1, 2, 3, 4};
     Arrays.stream(indexes).forEach(index -> tasks.add(() -> startMockTransaction(index)));
-    Set<String> transactionIds = new HashSet<>();
     List<Future<String>> results = executor.invokeAll(tasks);
     for (Future<String> result : results) {
       Map<String, String> map = parseAuditValues(result.get());
-      Assert.assertEquals(map.size(), 4);
-      Assert.assertNotNull(map.get(CommonAuditKey.TRANSACTION_ID.getAuditKey()),
-          "transactionId must be not null");
-      Assert.assertFalse(
-          transactionIds.contains(map.get(CommonAuditKey.TRANSACTION_ID.getAuditKey())),
-          "transactionId must be unique");
-      Assert.assertEquals(map.get(CommonAuditKey.TRANSACTION_ID.getAuditKey()),
-          map.get(MockAuditKey.TEST_TRANSACTION_ID.getAuditKey()));
-      transactionIds.add(map.get(CommonAuditKey.TRANSACTION_ID.getAuditKey()));
+      Assert.assertEquals(map.size(), 2);
       Assert.assertNotNull(map.get(MockAuditKey.TEST_KEY_1.getAuditKey()),
           "transaction must have key 1");
       Assert.assertNotNull(map.get(MockAuditKey.TEST_KEY_2.getAuditKey()),

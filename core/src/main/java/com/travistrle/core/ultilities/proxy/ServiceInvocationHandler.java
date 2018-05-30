@@ -1,5 +1,6 @@
 package com.travistrle.core.ultilities.proxy;
 
+import com.google.common.base.Stopwatch;
 import com.travistrle.core.ultilities.logging.Logger;
 import com.travistrle.core.ultilities.transaction.CommonAuditKey;
 import com.travistrle.core.ultilities.transaction.TransactionManager;
@@ -7,6 +8,7 @@ import com.travistrle.core.ultilities.transaction.TransactionStatus;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 public class ServiceInvocationHandler implements InvocationHandler {
 
@@ -17,11 +19,13 @@ public class ServiceInvocationHandler implements InvocationHandler {
   }
 
   @Override
-  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+  public Object invoke(Object proxy, Method method, Object[] args) {
     Object result = null;
-
+    final Stopwatch stopwatch = Stopwatch.createStarted();
     try {
       TransactionManager.startTransaction();
+      TransactionManager
+          .audit(CommonAuditKey.TRANSACTION_ID, TransactionManager.getTransactionId());
       result = method.invoke(originalObject, args);
       TransactionManager
           .audit(CommonAuditKey.TRANSACTION_STATUS, TransactionStatus.SUCCESS.getValue());
@@ -29,12 +33,9 @@ public class ServiceInvocationHandler implements InvocationHandler {
       TransactionManager
           .audit(CommonAuditKey.TRANSACTION_STATUS, TransactionStatus.FAILURE.getValue());
       throw e;
-    } catch (Exception e) {
-      TransactionManager
-          .audit(CommonAuditKey.TRANSACTION_STATUS, TransactionStatus.FAILURE.getValue());
-      throw e;
     } finally {
-      Logger.info(TransactionManager.getAuditValues());
+      TransactionManager.audit(CommonAuditKey.TRANSACTION_EXECUTION_TIME,
+          stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
       TransactionManager.endTransaction();
       return result;
     }

@@ -5,7 +5,6 @@ import java.lang.reflect.Proxy;
 public final class ServiceProxyFactory {
 
   private ServiceProxyFactory() {
-
   }
 
   /**
