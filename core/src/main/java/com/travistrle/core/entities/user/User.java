@@ -1,7 +1,11 @@
 package com.travistrle.core.entities.user;
 
+import com.google.common.collect.Lists;
 import com.travistrle.core.entities.Entity;
+import com.travistrle.core.entities.group.Group;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class User extends Entity {
@@ -12,6 +16,11 @@ public class User extends Entity {
   private String phoneNumber;
   private ZonedDateTime dateOfBirth;
   private ContactMethod contactMethod;
+  private List<Group> groups;
+
+  public User() {
+    this.groups = new ArrayList<>();
+  }
 
   public String getEmail() {
     return email;
@@ -61,6 +70,18 @@ public class User extends Entity {
     this.contactMethod = contactMethod;
   }
 
+  public Iterable<Group> getGroups() {
+    return new ArrayList<>(this.groups);
+  }
+
+  public void setGroups(Iterable<Group> groups) {
+    this.groups = Lists.newArrayList(groups);
+  }
+
+  public void addGroup(Group group) {
+    this.groups.add(group);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -70,12 +91,7 @@ public class User extends Entity {
       return false;
     }
     User user = (User) o;
-    return Objects.equals(getEmail(), user.getEmail())
-        && Objects.equals(getFirstName(), user.getFirstName())
-        && Objects.equals(getLastName(), user.getLastName())
-        && Objects.equals(getPhoneNumber(), user.getPhoneNumber())
-        && Objects.equals(getDateOfBirth(), user.getDateOfBirth())
-        && getContactMethod() == user.getContactMethod();
+    return Objects.equals(getEmail(), user.getEmail());
   }
 
   @Override
@@ -95,6 +111,7 @@ public class User extends Entity {
     sb.append('}');
     return sb.toString();
   }
+
 
   public static final class Builder {
 
@@ -141,6 +158,11 @@ public class User extends Entity {
 
     public Builder withContactMethod(ContactMethod contactMethod) {
       user.setContactMethod(contactMethod);
+      return this;
+    }
+
+    public Builder withGroups(List<Group> groups) {
+      user.setGroups(groups);
       return this;
     }
 

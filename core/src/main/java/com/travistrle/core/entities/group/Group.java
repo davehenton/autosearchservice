@@ -1,11 +1,21 @@
 package com.travistrle.core.entities.group;
 
+import com.google.common.collect.Lists;
 import com.travistrle.core.entities.Entity;
+import com.travistrle.core.entities.user.User;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Group extends Entity {
 
   private String name;
+  private String description;
+  private List<User> users;
+
+  public Group() {
+    this.users = new ArrayList<>();
+  }
 
   public String getName() {
     return name;
@@ -13,6 +23,26 @@ public class Group extends Entity {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public Iterable<User> getUsers() {
+    return new ArrayList<>(this.users);
+  }
+
+  public void setUsers(Iterable<User> users) {
+    this.users = Lists.newArrayList(users);
+  }
+
+  public void addUser(User user) {
+    this.users.add(user);
   }
 
   @Override
@@ -30,9 +60,8 @@ public class Group extends Entity {
   @Override
   public int hashCode() {
 
-    return Objects.hash(getName());
+    return Objects.hash(getName(), getDescription());
   }
-
 
   @Override
   public String toString() {
@@ -62,6 +91,16 @@ public class Group extends Entity {
 
     public Builder withName(String name) {
       group.setName(name);
+      return this;
+    }
+
+    public Builder withDescription(String description) {
+      group.setDescription(description);
+      return this;
+    }
+
+    public Builder withUsers(List<User> users) {
+      group.setUsers(users);
       return this;
     }
 

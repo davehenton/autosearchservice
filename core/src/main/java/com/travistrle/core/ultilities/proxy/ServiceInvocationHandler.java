@@ -1,7 +1,6 @@
 package com.travistrle.core.ultilities.proxy;
 
 import com.google.common.base.Stopwatch;
-import com.travistrle.core.ultilities.logging.Logger;
 import com.travistrle.core.ultilities.transaction.CommonAuditKey;
 import com.travistrle.core.ultilities.transaction.TransactionManager;
 import com.travistrle.core.ultilities.transaction.TransactionStatus;
@@ -32,7 +31,6 @@ public class ServiceInvocationHandler implements InvocationHandler {
     } catch (InvocationTargetException e) {
       TransactionManager
           .audit(CommonAuditKey.TRANSACTION_STATUS, TransactionStatus.FAILURE.getValue());
-      throw e;
     } finally {
       TransactionManager.audit(CommonAuditKey.TRANSACTION_EXECUTION_TIME,
           stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
