@@ -1,4 +1,5 @@
-rootProject.name = 'ums'
+rootProject.name = 'mlwj'
 include 'core'
 include 'infrastructure'
 include 'entrypoints'
+include 'dataprocessor'

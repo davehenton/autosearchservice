@@ -5,7 +5,6 @@ ext {
     apacheCommonCsvVersion = '1.5'
     awsJavaSdkDynamoDbVersion = '1.11.210'
     awsJavaCoreVersion = '1.11.210'
-    byteBuddyVersion = '1.7.9'
     checkStyleVersion = '8.0'
     commonCollection4Version = '4.1'
     commonLang3Version = '3.6'
@@ -17,11 +16,8 @@ ext {
     h2DatabaseVersion = '1.4.196'
     ioReactivexRxjavaVersion = '1.1.2'
     jacocoVersion = '0.8.0'
-    javassistVersion = '3.22.0-GA'
-    jbossLoggingVersion = '3.3.1.Final'
     log4jVersion = '2.11.0'
     mockitoCoreVersion = '2.13.0'
-    objenesisVersion = '2.6'
     sqlite4javaVersion = '1.0.392'
     snakeYamlVersion = '1.19'
     springBootVersion = '2.0.0.RELEASE'
@@ -34,15 +30,12 @@ ext {
     libraries = [
             awsdynamodb: "com.amazonaws:aws-java-sdk-dynamodb:${awsJavaSdkDynamoDbVersion}",
             awssdkcore : "com.amazonaws:aws-java-sdk-core:${awsJavaCoreVersion}",
-            byteBuddy  : "net.bytebuddy:byte-buddy:${byteBuddyVersion}",
             commonLang : "org.apache.commons:commons-lang3:${commonLang3Version}",
+            commongLog : "commons-logging:commons-logging:${commonsLoggingVersion}",
             commonIo   : "commons-io:commons-io:${commonIoVersion}",
-            javassist  : "org.javassist:javassist:${javassistVersion}",
-            jboss      : "org.jboss.logging:jboss-logging:${jbossLoggingVersion}",
             log4j      : "org.apache.logging.log4j:log4j-api:${log4jVersion}",
             log4jCore  : "org.apache.logging.log4j:log4j-core:${log4jVersion}",
             mockito    : "org.mockito:mockito-core:${mockitoCoreVersion}",
-            objenesis  : "org.objenesis:objenesis:${objenesisVersion}",
             snakeyaml  : "org.yaml:snakeyaml:${snakeYamlVersion}"
     ]
 }
@@ -50,19 +43,10 @@ ext {
 allprojects {
     configurations.all {
         resolutionStrategy {
-            // fail eagerly on version conflict (includes transitive dependencies)
-            // e.g. multiple different versions of the same dependency (group and name are equal)
             failOnVersionConflict()
-
-            // Auto force all of our explicit dependencies.
-            libraries.each { k, v -> force(v) }
-            force("io.reactivex:rxjava:${ioReactivexRxjavaVersion}")
-            force("com.google.code.gson:gson:${gsonVersion}")
-            force("commons-logging:commons-logging:${commonsLoggingVersion}")
-            // cache dynamic versions for 10 minutes
             cacheDynamicVersionsFor 10 * 60, 'seconds'
-            // don't cache changing modules at all
             cacheChangingModulesFor 0, 'seconds'
+            libraries.each { k, v -> force(v) }
         }
     }
 

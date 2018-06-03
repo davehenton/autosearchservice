@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class ServiceInvocationHandler implements InvocationHandler {
 
   private Object originalObject;
+  private Stopwatch stopwatch;
 
   public ServiceInvocationHandler(Object originalObject) {
     this.originalObject = originalObject;
@@ -20,8 +21,8 @@ public class ServiceInvocationHandler implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) {
     Object result = null;
-    final Stopwatch stopwatch = Stopwatch.createStarted();
     try {
+      stopwatch = Stopwatch.createStarted();
       TransactionManager.startTransaction();
       TransactionManager
           .audit(CommonAuditKey.TRANSACTION_ID, TransactionManager.getTransactionId());
