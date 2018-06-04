@@ -1,9 +1,9 @@
-# mlwj
-Machine Learning With Java
+# autosearchservice
+Auto Search Service allow user search car based on image.
 
-[![CircleCI](https://circleci.com/gh/travistrle/mlwj/tree/master.svg?style=svg)](https://circleci.com/gh/travistrle/mlwj/tree/master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/e6ac61f69e0ad551fb45/maintainability)](https://codeclimate.com/github/travistrle/mlwj/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/e6ac61f69e0ad551fb45/test_coverage)](https://codeclimate.com/github/travistrle/mlwj/test_coverage)
+[![CircleCI](https://circleci.com/gh/travistrle/autosearchservice.svg?style=svg)](https://circleci.com/gh/travistrle/autosearchservice)
+[![Maintainability](https://api.codeclimate.com/v1/badges/51f4e526da1dad94f98e/maintainability)](https://codeclimate.com/github/travistrle/autosearchservice/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/51f4e526da1dad94f98e/test_coverage)](https://codeclimate.com/github/travistrle/autosearchservice/test_coverage)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 * [Getting Started](#getting-started)
