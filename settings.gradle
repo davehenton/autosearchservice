@@ -1,4 +1,4 @@
-rootProject.name = 'mlwj'
+rootProject.name = 'autosearchservice'
 include 'core'
 include 'infrastructure'
 include 'entrypoints'

@@ -2,6 +2,7 @@ package com.travistrle.core.usecases.user;
 
 import com.travistrle.core.adapters.user.UserRepository;
 import com.travistrle.core.entities.user.User;
+import org.apache.commons.lang3.StringUtils;
 
 public class UserManagerImpl implements UserManager {
 
@@ -13,31 +14,60 @@ public class UserManagerImpl implements UserManager {
 
   @Override
   public boolean validate(User entity) {
-    return false;
+    if (entity == null) {
+      return false;
+    } else if (StringUtils.isBlank(entity.getEmail())) {
+      return false;
+    }
+    return true;
   }
 
   @Override
   public boolean create(User entity) {
-    return false;
+    if (entity == null) {
+      return false;
+    }
+    if (StringUtils.isBlank(entity.getEmail())) {
+      return false;
+    }
+    return repository.create(entity);
   }
 
   @Override
   public User read(User entity) {
-    return null;
+    if (entity == null) {
+      return null;
+    }
+    if (StringUtils.isBlank(entity.getEmail())) {
+      return null;
+    }
+    return repository.read(entity);
   }
 
   @Override
   public boolean update(User entity) {
-    return false;
+    if (entity == null) {
+      return false;
+    }
+    if (StringUtils.isBlank(entity.getEmail())) {
+      return false;
+    }
+    return repository.update(entity);
   }
 
   @Override
   public boolean delete(User entity) {
-    return false;
+    if (entity == null) {
+      return false;
+    }
+    if (StringUtils.isBlank(entity.getEmail())) {
+      return false;
+    }
+    return repository.delete(entity);
   }
 
   @Override
   public int delete(Iterable<User> entities) {
-    return 0;
+    return repository.delete(entities);
   }
 }
