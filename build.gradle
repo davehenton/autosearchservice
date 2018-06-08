@@ -15,9 +15,12 @@ ext {
     gsonVersion = '2.6.2'
     h2DatabaseVersion = '1.4.196'
     ioReactivexRxjavaVersion = '1.1.2'
+    javassistVersion = '3.22.0-GA'
     jacocoVersion = '0.8.0'
+    jbossLoggingVersion = '3.3.1.Final'
     log4jVersion = '2.11.0'
     mockitoCoreVersion = '2.13.0'
+    mysqlConnectorJava = '6.0.6'
     sqlite4javaVersion = '1.0.392'
     snakeYamlVersion = '1.19'
     springBootVersion = '2.0.0.RELEASE'
@@ -33,6 +36,8 @@ ext {
             commonLang : "org.apache.commons:commons-lang3:${commonLang3Version}",
             commongLog : "commons-logging:commons-logging:${commonsLoggingVersion}",
             commonIo   : "commons-io:commons-io:${commonIoVersion}",
+            javassist  : "org.javassist:javassist:${javassistVersion}",
+            jbossLog   : "org.jboss.logging:jboss-logging:${jbossLoggingVersion}",
             log4j      : "org.apache.logging.log4j:log4j-api:${log4jVersion}",
             log4jCore  : "org.apache.logging.log4j:log4j-core:${log4jVersion}",
             mockito    : "org.mockito:mockito-core:${mockitoCoreVersion}",
@@ -88,7 +93,8 @@ subprojects {
     jacocoTestReport {
         afterEvaluate {
             classDirectories = files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: ['**/entities/**', '**/adapters/**'])
+                fileTree(dir: it, exclude: ['**/entities/**', '**/adapters/**',
+                                            '**/*Entity.class', '**/*Entity$Builder.class'])
             })
         }
 

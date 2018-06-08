@@ -4,11 +4,30 @@ import com.travistrle.core.adapters.auto.AutoRepository;
 import com.travistrle.core.entities.auto.Auto;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.mockito.Mockito;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class AutoManagerTest {
+
+  /**
+   * Provide invalid entry.
+   *
+   * @return {@link Object}
+   */
+  @DataProvider
+  public Object[][] provideInvalidAuto() {
+    return new Object[][]{
+        {
+            null
+        },
+        {
+            new Auto.Builder().build()
+        }
+    };
+  }
 
   @Test
   public void testValidate() {
@@ -38,8 +57,7 @@ public class AutoManagerTest {
     Assert.assertTrue(ret, "Valid entry should return true");
   }
 
-  @Test(dataProvider = "provideCreateWithInvalidEntry",
-      dataProviderClass = AutoManagerDataProvider.class)
+  @Test(dataProvider = "provideInvalidAuto")
   public void testCreateWithInvalidEntry(Auto auto) {
     AutoRepository repository = Mockito.mock(AutoRepository.class);
     Mockito.when(repository.create(Mockito.any(Auto.class))).thenReturn(true);
@@ -53,21 +71,20 @@ public class AutoManagerTest {
   public void testRead() {
     AutoRepository repository = Mockito.mock(AutoRepository.class);
     Auto auto = new Auto.Builder().withVehicleIdentificationNumber("testName").build();
-    Mockito.when(repository.read(auto)).thenReturn(auto);
+    Mockito.when(repository.read(auto)).thenReturn(Optional.of(auto));
     AutoManager manager = new AutoManagerImpl(repository);
-    Auto ret = manager.read(auto);
+    Optional<Auto> ret = manager.read(auto);
     Mockito.verify(repository, Mockito.times(1)).read(auto);
-    Assert.assertEquals(ret, auto, "Should be able to find an existing entry");
+    Assert.assertEquals(ret.get(), auto, "Should be able to find an existing entry");
   }
 
-  @Test(dataProvider = "provideReadInvalidEntry",
-      dataProviderClass = AutoManagerDataProvider.class)
+  @Test(dataProvider = "provideInvalidAuto")
   public void testReadInvalidEntry(Auto auto) {
     AutoRepository repository = Mockito.mock(AutoRepository.class);
-    Mockito.when(repository.read(auto)).thenReturn(auto);
+    Mockito.when(repository.read(auto)).thenReturn(Optional.empty());
     AutoManager manager = new AutoManagerImpl(repository);
-    Auto ret = manager.read(auto);
-    Assert.assertNull(ret, "empty entry should be null");
+    Optional<Auto> ret = manager.read(auto);
+    Assert.assertFalse(ret.isPresent(), "empty entry should be null");
   }
 
   @Test
@@ -81,8 +98,7 @@ public class AutoManagerTest {
     Assert.assertTrue(ret, "Should be able to find an existing entry");
   }
 
-  @Test(dataProvider = "provideUpdateInvalidEntry",
-      dataProviderClass = AutoManagerDataProvider.class)
+  @Test(dataProvider = "provideInvalidAuto")
   public void testUpdateInvalidEntry(Auto auto) {
     AutoRepository repository = Mockito.mock(AutoRepository.class);
     Mockito.when(repository.update(auto)).thenReturn(true);
@@ -102,8 +118,7 @@ public class AutoManagerTest {
     Assert.assertTrue(ret, "Should be able to delete an existing entry");
   }
 
-  @Test(dataProvider = "provideDeleteInvalidEntry",
-      dataProviderClass = AutoManagerDataProvider.class)
+  @Test(dataProvider = "provideInvalidAuto")
   public void testDeleteInvalidEntry(Auto auto) {
     AutoRepository repository = Mockito.mock(AutoRepository.class);
     Mockito.when(repository.delete(auto)).thenReturn(true);

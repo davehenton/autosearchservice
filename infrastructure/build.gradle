@@ -11,11 +11,14 @@ dependencies {
     compile "com.amazonaws:aws-java-sdk-dynamodb:${awsJavaSdkDynamoDbVersion}"
     compile "org.apache.commons:commons-csv:${apacheCommonCsvVersion}"
     compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
     compile "org.springframework:spring-context:${springFrameworkVersion}"
+    compile "mysql:mysql-connector-java:${mysqlConnectorJava}"
 
     testCompile "com.amazonaws:DynamoDBLocal:${dynamodbLocalVersion}"
     testCompile "com.almworks.sqlite4java:sqlite4java:${sqlite4javaVersion}"
-    testCompile "org.springframework:spring-test:${springFrameworkVersion}"
+    testCompile "com.h2database:h2:${h2DatabaseVersion}"
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 }
 
 task copyNativeDeps(type: Copy) {

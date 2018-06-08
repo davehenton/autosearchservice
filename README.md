@@ -11,6 +11,20 @@ Auto Search Service allow user search car based on image.
 
 ## Getting Started
 
+### start mysql
+```bash
+$ docker run --name=mysql01 -d mysql/mysql-server:latest
+$ docker logs mysql01 # look out for password
+$ docker exec -it mysql01 mysql -uroot -p
+```
+
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'newpassword';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+CREATE DATABASE dbname;
+```
 ## References
 1. [Clean Architecture Uncle Bob](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
 2. [Clean Architecture on Medium](https://medium.com/@dmilicic/a-detailed-guide-on-developing-android-apps-using-the-clean-architecture-pattern-d38d71e94029)

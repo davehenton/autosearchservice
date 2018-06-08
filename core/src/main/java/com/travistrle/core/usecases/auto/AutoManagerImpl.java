@@ -2,6 +2,7 @@ package com.travistrle.core.usecases.auto;
 
 import com.travistrle.core.adapters.auto.AutoRepository;
 import com.travistrle.core.entities.auto.Auto;
+import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 
 public class AutoManagerImpl implements AutoManager {
@@ -34,12 +35,12 @@ public class AutoManagerImpl implements AutoManager {
   }
 
   @Override
-  public Auto read(Auto entity) {
+  public Optional<Auto> read(Auto entity) {
     if (entity == null) {
-      return null;
+      return Optional.empty();
     }
-    if (StringUtils.isBlank(entity.getVehicleIdentificationNumber())) {
-      return null;
+    if (!validate(entity)) {
+      return Optional.empty();
     }
     return repository.read(entity);
   }

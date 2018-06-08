@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 public class User extends Entity {
 
@@ -111,7 +112,6 @@ public class User extends Entity {
     sb.append('}');
     return sb.toString();
   }
-
 
   public static final class Builder {
 

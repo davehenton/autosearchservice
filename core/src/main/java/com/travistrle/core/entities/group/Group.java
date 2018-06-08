@@ -6,6 +6,7 @@ import com.travistrle.core.entities.user.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 public class Group extends Entity {
 

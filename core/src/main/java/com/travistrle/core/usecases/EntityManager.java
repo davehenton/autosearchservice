@@ -2,6 +2,7 @@ package com.travistrle.core.usecases;
 
 import com.travistrle.core.entities.Entity;
 import java.util.List;
+import java.util.Optional;
 
 public interface EntityManager<T extends Entity> {
 
@@ -26,7 +27,7 @@ public interface EntityManager<T extends Entity> {
    * @param entity {@link T}
    * @return {@link T}
    */
-  T read(T entity);
+  Optional<T> read(T entity);
 
   /**
    * Update an existing entity.

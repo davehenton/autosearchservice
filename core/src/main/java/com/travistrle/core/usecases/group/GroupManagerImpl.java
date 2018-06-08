@@ -2,6 +2,7 @@ package com.travistrle.core.usecases.group;
 
 import com.travistrle.core.adapters.group.GroupRepository;
 import com.travistrle.core.entities.group.Group;
+import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 
 public class GroupManagerImpl implements GroupManager {
@@ -34,12 +35,12 @@ public class GroupManagerImpl implements GroupManager {
   }
 
   @Override
-  public Group read(Group entity) {
+  public Optional<Group> read(Group entity) {
     if (entity == null) {
-      return null;
+      return Optional.empty();
     }
-    if (StringUtils.isBlank(entity.getName())) {
-      return null;
+    if (!validate(entity)) {
+      return Optional.empty();
     }
     return repository.read(entity);
   }

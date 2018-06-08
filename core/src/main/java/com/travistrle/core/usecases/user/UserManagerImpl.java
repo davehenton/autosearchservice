@@ -2,6 +2,7 @@ package com.travistrle.core.usecases.user;
 
 import com.travistrle.core.adapters.user.UserRepository;
 import com.travistrle.core.entities.user.User;
+import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 
 public class UserManagerImpl implements UserManager {
@@ -34,12 +35,12 @@ public class UserManagerImpl implements UserManager {
   }
 
   @Override
-  public User read(User entity) {
+  public Optional<User> read(User entity) {
     if (entity == null) {
-      return null;
+      return Optional.empty();
     }
-    if (StringUtils.isBlank(entity.getEmail())) {
-      return null;
+    if (!validate(entity)) {
+      return Optional.empty();
     }
     return repository.read(entity);
   }

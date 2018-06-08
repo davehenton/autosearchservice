@@ -4,11 +4,30 @@ import com.travistrle.core.adapters.group.GroupRepository;
 import com.travistrle.core.entities.group.Group;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.mockito.Mockito;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class GroupManagerTest {
+
+  /**
+   * Provide invalid entry.
+   *
+   * @return {@link Object}
+   */
+  @DataProvider
+  public Object[][] provideInvalidGroup() {
+    return new Object[][]{
+        {
+            null
+        },
+        {
+            new Group.Builder().build()
+        }
+    };
+  }
 
   @Test
   public void testValidate() {
@@ -36,8 +55,7 @@ public class GroupManagerTest {
     Assert.assertTrue(ret, "Valid entry should return true");
   }
 
-  @Test(dataProvider = "provideCreateWithInvalidEntry",
-      dataProviderClass = GroupManagerDataProvider.class)
+  @Test(dataProvider = "provideInvalidGroup")
   public void testCreateWithInvalidEntry(Group group) {
     GroupRepository repository = Mockito.mock(GroupRepository.class);
     Mockito.when(repository.create(Mockito.any(Group.class))).thenReturn(true);
@@ -51,21 +69,20 @@ public class GroupManagerTest {
   public void testRead() {
     GroupRepository repository = Mockito.mock(GroupRepository.class);
     Group group = new Group.Builder().withName("testName").build();
-    Mockito.when(repository.read(group)).thenReturn(group);
+    Mockito.when(repository.read(group)).thenReturn(Optional.of(group));
     GroupManager manager = new GroupManagerImpl(repository);
-    Group ret = manager.read(group);
+    Optional<Group> ret = manager.read(group);
     Mockito.verify(repository, Mockito.times(1)).read(group);
-    Assert.assertEquals(ret, group, "Should be able to find an existing entry");
+    Assert.assertEquals(ret.get(), group, "Should be able to find an existing entry");
   }
 
-  @Test(dataProvider = "provideReadInvalidEntry",
-      dataProviderClass = GroupManagerDataProvider.class)
+  @Test(dataProvider = "provideInvalidGroup")
   public void testReadInvalidEntry(Group group) {
     GroupRepository repository = Mockito.mock(GroupRepository.class);
-    Mockito.when(repository.read(group)).thenReturn(group);
+    Mockito.when(repository.read(group)).thenReturn(Optional.empty());
     GroupManager manager = new GroupManagerImpl(repository);
-    Group ret = manager.read(group);
-    Assert.assertNull(ret, "empty entry should be null");
+    Optional<Group> ret = manager.read(group);
+    Assert.assertFalse(ret.isPresent(), "empty entry should be null");
   }
 
   @Test
@@ -79,8 +96,7 @@ public class GroupManagerTest {
     Assert.assertTrue(ret, "Should be able to find an existing entry");
   }
 
-  @Test(dataProvider = "provideUpdateInvalidEntry",
-      dataProviderClass = GroupManagerDataProvider.class)
+  @Test(dataProvider = "provideInvalidGroup")
   public void testUpdateInvalidEntry(Group group) {
     GroupRepository repository = Mockito.mock(GroupRepository.class);
     Mockito.when(repository.update(group)).thenReturn(true);
@@ -100,8 +116,7 @@ public class GroupManagerTest {
     Assert.assertTrue(ret, "Should be able to delete an existing entry");
   }
 
-  @Test(dataProvider = "provideDeleteInvalidEntry",
-      dataProviderClass = GroupManagerDataProvider.class)
+  @Test(dataProvider = "provideInvalidGroup")
   public void testDeleteInvalidEntry(Group group) {
     GroupRepository repository = Mockito.mock(GroupRepository.class);
     Mockito.when(repository.delete(group)).thenReturn(true);

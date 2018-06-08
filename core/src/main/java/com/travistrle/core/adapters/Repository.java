@@ -2,6 +2,7 @@ package com.travistrle.core.adapters;
 
 import com.travistrle.core.entities.Entity;
 import java.util.List;
+import java.util.Optional;
 
 public interface Repository<T extends Entity> {
 
@@ -26,7 +27,7 @@ public interface Repository<T extends Entity> {
    * @param entity {@link T}
    * @return {@link T}
    */
-  T read(T entity);
+  Optional<T> read(T entity);
 
   /**
    * Batch get entities.
