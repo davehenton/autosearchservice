@@ -7,18 +7,23 @@ jar {
 }
 
 dependencies {
-    compile project(":core")
-    compile "com.amazonaws:aws-java-sdk-dynamodb:${awsJavaSdkDynamoDbVersion}"
-    compile "org.apache.commons:commons-csv:${apacheCommonCsvVersion}"
-    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
-    compile "org.springframework:spring-context:${springFrameworkVersion}"
-    compile "mysql:mysql-connector-java:${mysqlConnectorJava}"
+    compile(
+            project(":core"),
+            "com.amazonaws:aws-java-sdk-dynamodb:${awsJavaSdkDynamoDbVersion}",
+            "mysql:mysql-connector-java:${mysqlConnectorJava}",
+            "org.apache.commons:commons-csv:${apacheCommonCsvVersion}",
+            "org.springframework.boot:spring-boot-starter:${springBootVersion}",
+            "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}",
+            "org.springframework:spring-context:${springFrameworkVersion}",
+            "mysql:mysql-connector-java:${mysqlConnectorJava}"
+    )
 
-    testCompile "com.amazonaws:DynamoDBLocal:${dynamodbLocalVersion}"
-    testCompile "com.almworks.sqlite4java:sqlite4java:${sqlite4javaVersion}"
-    testCompile "com.h2database:h2:${h2DatabaseVersion}"
-    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    testCompile(
+            "com.amazonaws:DynamoDBLocal:${dynamodbLocalVersion}",
+            "com.almworks.sqlite4java:sqlite4java:${sqlite4javaVersion}",
+            "com.h2database:h2:${h2DatabaseVersion}",
+            "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    )
 }
 
 task copyNativeDeps(type: Copy) {

@@ -108,14 +108,18 @@ subprojects {
     }
 
     dependencies {
-        compile "com.google.guava:guava:${guavaVersion}"
-        compile "org.apache.commons:commons-lang3:${commonLang3Version}"
-        compile "org.apache.commons:commons-collections4:${commonCollection4Version}"
-        compile "org.apache.logging.log4j:log4j-core:${log4jVersion}"
-        compile "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+        compile(
+                "com.google.guava:guava:${guavaVersion}",
+                "org.apache.commons:commons-lang3:${commonLang3Version}",
+                "org.apache.commons:commons-collections4:${commonCollection4Version}",
+                "org.apache.logging.log4j:log4j-core:${log4jVersion}",
+                "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+        )
 
-        testCompile "org.testng:testng:${testngVersion}"
-        testCompile "org.mockito:mockito-core:${mockitoCoreVersion}"
+        testCompile(
+                "org.testng:testng:${testngVersion}",
+                "org.mockito:mockito-core:${mockitoCoreVersion}"
+        )
     }
 
     test {

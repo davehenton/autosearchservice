@@ -1,23 +1,27 @@
 package com.travistrle.infrastructure.db.mysql.auto;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.travistrle.core.adapters.auto.AutoRepository;
 import com.travistrle.core.entities.auto.Auto;
 import com.travistrle.infrastructure.db.mysql.MySqlConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @ContextConfiguration(classes = {MySqlConfiguration.class})
-@Transactional
-public class AutoRepositoryImplTest extends AbstractTestNGSpringContextTests {
+@DataJpaTest
+@Transactional(transactionManager = "transactionManager")
+public class AutoRepositoryImplTest extends AbstractTransactionalTestNGSpringContextTests {
 
   @Autowired
-  AutoRepositoryImpl repository;
+  AutoRepository repository;
 
   @Test
   public void testCreate() {
@@ -29,66 +33,66 @@ public class AutoRepositoryImplTest extends AbstractTestNGSpringContextTests {
     Optional<Auto> auto = repository
         .read(new Auto.Builder().withVehicleIdentificationNumber("testvin1").build());
 
-    Assert.assertNotNull(auto);
-    Assert.assertTrue(auto.isPresent());
-    Assert.assertEquals(auto.get().getVehicleIdentificationNumber(), "testvin1");
+    assertThat(auto).isNotNull();
+    assertThat(auto.isPresent()).isTrue();
+    assertThat(auto.get().getVehicleIdentificationNumber()).isEqualTo("testvin1");
   }
 
   @Test
   public void testBatchCreate() {
-    List<Auto> autos = new ArrayList<Auto>() {
-      {
-        add(new Auto.Builder()
-            .withVehicleIdentificationNumber("testvin2")
-            .withMake("testmake2")
-            .build());
-        add(new Auto.Builder()
-            .withVehicleIdentificationNumber("testvin3")
-            .withMake("testmake3")
-            .build());
-      }
-    };
+    List<Auto> autos = new ArrayList<>();
+    int size = 3;
+    for (int i = 0; i < size; i++) {
+      autos.add(new Auto.Builder()
+          .withVehicleIdentificationNumber("testvin" + i)
+          .withMake("testmake" + i)
+          .build());
+    }
 
     repository.create(autos);
     Iterable<Auto> retAutos = repository.read(autos);
-    Assert.assertNotNull(retAutos);
-    Assert.assertEquals(((List<Auto>) retAutos).size(), autos.size());
+    assertThat(retAutos).isNotNull();
+    assertThat(((List<Auto>) retAutos).size()).isEqualTo(size);
   }
 
   @Test
   public void testNonExistingEntryRead() {
     Optional<Auto> auto = repository
         .read(new Auto.Builder().withVehicleIdentificationNumber("nontestvin").build());
-    Assert.assertNotNull(auto);
-    Assert.assertFalse(auto.isPresent(), "non existing entry should not present");
+    assertThat(auto).isNotNull();
+    assertThat(auto.isPresent()).isFalse();
   }
 
   @Test
   public void testNonExistingEntriesRead() {
-    List<Auto> autos = new ArrayList<Auto>() {
-      {
-        add(new Auto.Builder()
-            .withVehicleIdentificationNumber("nontestvin1")
-            .withMake("testmake1")
-            .build());
-        add(new Auto.Builder()
-            .withVehicleIdentificationNumber("nontestvin2")
-            .withMake("testmake2")
-            .build());
-      }
-    };
+    List<Auto> autos = new ArrayList<>();
+    int size = 5;
+    for (int i = 0; i < size; i++) {
+      autos.add(new Auto.Builder()
+          .withVehicleIdentificationNumber("nontestvin1")
+          .build());
+    }
 
     Iterable<Auto> retAutos = repository.read(autos);
-    Assert.assertNotNull(retAutos);
-    Assert.assertEquals(((List<Auto>) retAutos).size(), 0,
-        "non existing entries should return 0");
+    assertThat(retAutos).isNotNull();
+    assertThat(((List<Auto>) retAutos).size()).isEqualTo(0);
   }
 
   @Test
   public void testReadAll() {
+    List<Auto> autos = new ArrayList<>();
+    int size = 5;
+    for (int i = 0; i < size; i++) {
+      autos.add(new Auto.Builder()
+          .withVehicleIdentificationNumber("nontestvin" + i)
+          .withMake("testmake1" + i)
+          .build());
+    }
+    repository.create(autos);
+
     Iterable<Auto> retAutos = repository.readAll();
-    Assert.assertNotNull(retAutos);
-    Assert.assertEquals(((List<Auto>) retAutos).size(), 3);
+    assertThat(retAutos).isNotNull();
+    assertThat(((List<Auto>) retAutos).size()).isEqualTo(size);
   }
 
   @Test
@@ -101,38 +105,45 @@ public class AutoRepositoryImplTest extends AbstractTestNGSpringContextTests {
     Optional<Auto> auto = repository
         .read(new Auto.Builder().withVehicleIdentificationNumber("testvin1").build());
 
-    Assert.assertNotNull(auto);
-    Assert.assertTrue(auto.isPresent());
-    Assert.assertEquals(auto.get().getVehicleIdentificationNumber(), "testvin1");
-    Assert.assertEquals(auto.get().getMake(), "testmake1-Update");
+    assertThat(auto).isNotNull();
+    assertThat(auto.isPresent()).isTrue();
+    assertThat(auto.get().getVehicleIdentificationNumber()).isEqualTo("testvin1");
+    assertThat(auto.get().getMake()).isEqualTo("testmake1-Update");
   }
 
   @Test
   public void testBatchUpdate() {
-    List<Auto> autos = new ArrayList<Auto>() {
-      {
-        add(new Auto.Builder()
-            .withVehicleIdentificationNumber("testvin2")
-            .withMake("testmake2-Update")
-            .build());
-        add(new Auto.Builder()
-            .withVehicleIdentificationNumber("testvin3")
-            .withMake("testmake3-Update")
-            .build());
-      }
-    };
+    List<Auto> autos = new ArrayList<>();
+    int size = 5;
+    for (int i = 0; i < size; i++) {
+      autos.add(new Auto.Builder()
+          .withVehicleIdentificationNumber("testvin" + i)
+          .withMake("testmake" + i)
+          .build());
+    }
+    repository.create(autos);
 
+    autos = new ArrayList<>();
+    for (int i = 0; i < size; i++) {
+      autos.add(new Auto.Builder()
+          .withVehicleIdentificationNumber("testvin" + i)
+          .withMake("testmake-Update" + i)
+          .build());
+    }
     repository.update(autos);
     List<Auto> retAutos = repository.read(autos);
-    Assert.assertNotNull(retAutos);
-    Assert.assertEquals(retAutos.size(), autos.size());
-    retAutos.forEach(retAuto -> {
-      Assert.assertTrue(retAuto.getMake().contains("Update"));
-    });
+    assertThat(retAutos).isNotNull();
+    assertThat(retAutos.size()).isEqualTo(size);
+    retAutos.forEach(retAuto -> assertThat(retAuto.getMake()).contains("Update"));
   }
 
-  @Test(dependsOnMethods = {"testReadAll"})
+  @Test
   public void testDelete() {
+    repository.create(new Auto.Builder()
+        .withVehicleIdentificationNumber("testvin1")
+        .withMake("testmake1")
+        .build());
+
     repository.delete(new Auto.Builder()
         .withVehicleIdentificationNumber("testvin1")
         .build());
@@ -140,26 +151,32 @@ public class AutoRepositoryImplTest extends AbstractTestNGSpringContextTests {
     Optional<Auto> auto = repository
         .read(new Auto.Builder().withVehicleIdentificationNumber("testvin1").build());
 
-    Assert.assertNotNull(auto);
-    Assert.assertFalse(auto.isPresent());
+    assertThat(auto).isNotNull();
+    assertThat(auto.isPresent()).isFalse();
   }
 
-  @Test(dependsOnMethods = {"testReadAll"})
+  @Test()
   public void testBatchDelete() {
-    List<Auto> autos = new ArrayList<Auto>() {
-      {
-        add(new Auto.Builder()
-            .withVehicleIdentificationNumber("testvin2")
-            .build());
-        add(new Auto.Builder()
-            .withVehicleIdentificationNumber("testvin3")
-            .build());
-      }
-    };
+    List<Auto> autos = new ArrayList<>();
+    int size = 5;
+    for (int i = 0; i < size; i++) {
+      autos.add(new Auto.Builder()
+          .withVehicleIdentificationNumber("testvin" + i)
+          .withMake("make" + i)
+          .build());
+    }
+    repository.create(autos);
+
+    autos = new ArrayList<>();
+    for (int i = 0; i < size; i++) {
+      autos.add(new Auto.Builder()
+          .withVehicleIdentificationNumber("testvin" + i)
+          .build());
+    }
 
     repository.delete(autos);
     List<Auto> retAutos = repository.read(autos);
-    Assert.assertNotNull(retAutos);
-    Assert.assertEquals(retAutos.size(), 0);
+    assertThat(retAutos).isNotNull();
+    assertThat(retAutos.size()).isEqualTo(0);
   }
 }

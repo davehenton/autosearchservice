@@ -19,14 +19,15 @@ dependencyManagement {
 }
 
 dependencies {
-    compile project(":core")
-    compile project(":infrastructure")
-    compile "mysql:mysql-connector-java"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.cloud:spring-cloud-starter-aws"
-    compile "io.springfox:springfox-swagger-ui:${springfoxVersion}"
-    compile "io.springfox:springfox-swagger2:${springfoxVersion}"
+    compile(
+            project(":core"),
+            project(":infrastructure"),
 
-    compile "org.springframework.boot:spring-boot-configuration-processor"
+            "io.springfox:springfox-swagger-ui:${springfoxVersion}",
+            "io.springfox:springfox-swagger2:${springfoxVersion}",
+            "org.springframework.boot:spring-boot-starter-actuator",
+            "org.springframework.boot:spring-boot-starter-web",
+            "org.springframework.boot:spring-boot-configuration-processor",
+            "org.springframework.cloud:spring-cloud-starter-aws"
+    )
 }
