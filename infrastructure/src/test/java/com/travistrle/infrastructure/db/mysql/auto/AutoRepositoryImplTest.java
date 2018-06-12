@@ -166,16 +166,8 @@ public class AutoRepositoryImplTest extends AbstractTransactionalTestNGSpringCon
           .build());
     }
     repository.create(autos);
-
-    autos = new ArrayList<>();
-    for (int i = 0; i < size; i++) {
-      autos.add(new Auto.Builder()
-          .withVehicleIdentificationNumber("testvin" + i)
-          .build());
-    }
-
     repository.delete(autos);
-    List<Auto> retAutos = repository.read(autos);
+    List<Auto> retAutos = repository.readAll();
     assertThat(retAutos).isNotNull();
     assertThat(retAutos.size()).isEqualTo(0);
   }

@@ -1,6 +1,7 @@
 package com.travistrle.core.entities.auto;
 
 import com.travistrle.core.entities.Entity;
+import com.travistrle.core.entities.user.User;
 import java.util.Objects;
 
 public class Auto extends Entity {
@@ -10,6 +11,7 @@ public class Auto extends Entity {
   private String model;
   private String trim;
   private Float price;
+  private User user;
 
   public String getVehicleIdentificationNumber() {
     return vehicleIdentificationNumber;
@@ -51,6 +53,14 @@ public class Auto extends Entity {
     this.price = price;
   }
 
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -78,6 +88,7 @@ public class Auto extends Entity {
     sb.append(", model='").append(model).append('\'');
     sb.append(", trim='").append(trim).append('\'');
     sb.append(", price=").append(price);
+    sb.append(", user=").append(user);
     sb.append('}');
     return sb.toString();
   }
@@ -122,6 +133,11 @@ public class Auto extends Entity {
 
     public Builder withPrice(Float price) {
       auto.setPrice(price);
+      return this;
+    }
+
+    public Builder withUser(User user) {
+      auto.setUser(user);
       return this;
     }
 

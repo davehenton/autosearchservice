@@ -165,16 +165,8 @@ public class UserRepositoryImplTest extends AbstractTransactionalTestNGSpringCon
           .build());
     }
     repository.create(autos);
-
-    autos = new ArrayList<>();
-    for (int i = 0; i < size; i++) {
-      autos.add(new User.Builder()
-          .withEmail("testemail" + i)
-          .build());
-    }
-
     repository.delete(autos);
-    List<User> retUsers = repository.read(autos);
+    List<User> retUsers = repository.readAll();
     assertThat(retUsers).isNotNull();
     assertThat(retUsers.size()).isEqualTo(0);
   }

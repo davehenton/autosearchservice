@@ -52,6 +52,9 @@ public class UserEntity {
    * @param user {@link User}
    */
   public UserEntity(User user) {
+    if (user == null) {
+      return;
+    }
     this.email = user.getEmail();
     this.firstName = user.getFirstName();
     this.lastName = user.getLastName();

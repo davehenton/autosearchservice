@@ -3,6 +3,7 @@ package com.travistrle.infrastructure.db.mysql.auto;
 import com.travistrle.core.entities.auto.Auto;
 import com.travistrle.infrastructure.db.mysql.user.UserEntity;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,7 +32,8 @@ public class AutoEntity {
   @Column(name = "price")
   private Float price;
 
-  @ManyToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+      targetEntity = UserEntity.class)
   @JoinColumn(name = "email")
   private UserEntity user;
 
@@ -49,6 +51,7 @@ public class AutoEntity {
     this.model = auto.getModel();
     this.trim = auto.getTrim();
     this.price = auto.getPrice();
+    this.user = auto.getUser() == null ? null : new UserEntity(auto.getUser());
   }
 
   /**
@@ -61,6 +64,7 @@ public class AutoEntity {
         .withModel(model)
         .withTrim(trim)
         .withPrice(price)
+        .withUser(user == null ? null : user.toUser())
         .build();
   }
 
