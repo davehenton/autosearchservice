@@ -2,7 +2,6 @@ package com.travistrle.core.entities.auto;
 
 import com.travistrle.core.entities.Entity;
 import java.util.Objects;
-import org.apache.commons.lang3.StringUtils;
 
 public class Auto extends Entity {
 

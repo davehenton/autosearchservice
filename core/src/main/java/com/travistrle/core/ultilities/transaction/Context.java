@@ -39,12 +39,6 @@ public class Context {
    */
   public String getAudits() {
     StringBuilder sb = new StringBuilder();
-    /*
-    sb.append(CommonAuditKey.TRANSACTION_ID.getAuditKey())
-        .append(CommonSymbols.EQUAL)
-        .append(transactionId)
-        .append(CommonSymbols.SPACE);
-    */
     audits.entrySet().forEach(
         audit -> sb.append(audit.getKey())
             .append(CommonSymbols.EQUAL)

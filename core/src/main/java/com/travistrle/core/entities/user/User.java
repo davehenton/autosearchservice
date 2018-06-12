@@ -2,12 +2,12 @@ package com.travistrle.core.entities.user;
 
 import com.google.common.collect.Lists;
 import com.travistrle.core.entities.Entity;
+import com.travistrle.core.entities.auto.Auto;
 import com.travistrle.core.entities.group.Group;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import org.apache.commons.lang3.StringUtils;
 
 public class User extends Entity {
 
@@ -17,6 +17,7 @@ public class User extends Entity {
   private String phoneNumber;
   private ZonedDateTime dateOfBirth;
   private ContactMethod contactMethod;
+  private List<Auto> autos;
   private List<Group> groups;
 
   public User() {
@@ -71,6 +72,22 @@ public class User extends Entity {
     this.contactMethod = contactMethod;
   }
 
+  /**
+   * Return autos.
+   *
+   * @return {@link Iterable}
+   */
+  public Iterable<Auto> getAutos() {
+    if (this.autos == null) {
+      return null;
+    }
+    return new ArrayList<>(this.autos);
+  }
+
+  public void setAutos(List<Auto> autos) {
+    this.autos = autos == null ? null : Lists.newArrayList(autos);
+  }
+
   public Iterable<Group> getGroups() {
     return new ArrayList<>(this.groups);
   }
@@ -109,6 +126,8 @@ public class User extends Entity {
     sb.append(", phoneNumber='").append(phoneNumber).append('\'');
     sb.append(", dateOfBirth=").append(dateOfBirth);
     sb.append(", contactMethod=").append(contactMethod);
+    sb.append(", autos=").append(autos);
+    sb.append(", groups=").append(groups);
     sb.append('}');
     return sb.toString();
   }
@@ -158,6 +177,11 @@ public class User extends Entity {
 
     public Builder withContactMethod(ContactMethod contactMethod) {
       user.setContactMethod(contactMethod);
+      return this;
+    }
+
+    public Builder withAutos(List<Auto> autos) {
+      user.setAutos(autos);
       return this;
     }
 

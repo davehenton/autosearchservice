@@ -1,10 +1,14 @@
 package com.travistrle.infrastructure.db.mysql.auto;
 
 import com.travistrle.core.entities.auto.Auto;
+import com.travistrle.infrastructure.db.mysql.user.UserEntity;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,8 +31,11 @@ public class AutoEntity {
   @Column(name = "price")
   private Float price;
 
-  public AutoEntity() {
+  @ManyToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class)
+  @JoinColumn(name = "email")
+  private UserEntity user;
 
+  public AutoEntity() {
   }
 
   /**

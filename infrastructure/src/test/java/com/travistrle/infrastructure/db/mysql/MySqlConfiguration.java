@@ -1,8 +1,11 @@
 package com.travistrle.infrastructure.db.mysql;
 
 import com.travistrle.core.adapters.auto.AutoRepository;
+import com.travistrle.core.adapters.user.UserRepository;
 import com.travistrle.infrastructure.db.mysql.auto.AutoRepositoryImpl;
 import com.travistrle.infrastructure.db.mysql.auto.AutoRepositoryMySql;
+import com.travistrle.infrastructure.db.mysql.user.UserRepositoryImpl;
+import com.travistrle.infrastructure.db.mysql.user.UserRepositoryMySql;
 import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -31,8 +34,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class MySqlConfiguration {
 
   @Bean
-  public AutoRepository provideAutoRepositoryImpl(AutoRepositoryMySql repository) {
+  public AutoRepository provideAutoRepository(AutoRepositoryMySql repository) {
     return new AutoRepositoryImpl(repository);
+  }
+
+  @Bean
+  public UserRepository provideUserRepository(UserRepositoryMySql repository) {
+    return new UserRepositoryImpl(repository);
   }
 
   /**

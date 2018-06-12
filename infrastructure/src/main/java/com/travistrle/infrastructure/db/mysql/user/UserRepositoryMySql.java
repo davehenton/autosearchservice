@@ -1,5 +1,7 @@
 package com.travistrle.infrastructure.db.mysql.user;
 
-public class UserRepositoryMySql {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepositoryMySql extends JpaRepository<UserEntity, String> {
 
 }
