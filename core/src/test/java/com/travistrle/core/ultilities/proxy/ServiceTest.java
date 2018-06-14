@@ -1,6 +1,7 @@
 package com.travistrle.core.ultilities.proxy;
 
-import org.testng.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.testng.annotations.Test;
 
 public class ServiceTest {
@@ -10,8 +11,7 @@ public class ServiceTest {
     int result = ServiceProxyFactory
         .newInstance(new MockServiceImpl(), MockService.class)
         .sum(5, 7);
-    Assert.assertEquals(result, 12);
-
+    assertThat(result).isEqualTo(12);
     ServiceProxyFactory
         .newInstance(new MockServiceImpl(), MockService.class)
         .report(2, 7);
@@ -30,5 +30,32 @@ public class ServiceTest {
     ServiceProxyFactory
         .newInstance(new MockServiceImpl(), MockService.class)
         .sum(2, 7);
+  }
+
+  @Test
+  public void testProxyServiceException() {
+    MockServiceResponse response = ServiceProxyFactory
+        .newInstance(new MockServiceImpl(), MockService.class)
+        .mockFunction(0);
+    assertThat(response).isNotNull();
+    assertThat(response.getErrorCode()).isEqualTo(MockServiceError.MOCK_SERVICE_ERROR.errorCode);
+    assertThat(response.getErrorMessage())
+        .isEqualTo(MockServiceError.MOCK_SERVICE_ERROR.getErrorMessage());
+
+    response = ServiceProxyFactory
+        .newInstance(new MockServiceImpl(), MockService.class)
+        .mockFunction(1);
+    assertThat(response).isNotNull();
+    assertThat(response.getErrorCode()).isEqualTo(CoreServiceError.INTERNAL_ERROR.getErrorCode());
+    assertThat(response.getErrorMessage())
+        .isEqualTo(CoreServiceError.INTERNAL_ERROR.getErrorMessage());
+
+    response = ServiceProxyFactory
+        .newInstance(new MockServiceImpl(), MockService.class)
+        .mockFunction(-1);
+    assertThat(response).isNotNull();
+    assertThat(response.getErrorCode()).isNull();
+    assertThat(response.getErrorMessage()).isNull();
+    assertThat(response.getMockValue()).isEqualTo(8888);
   }
 }

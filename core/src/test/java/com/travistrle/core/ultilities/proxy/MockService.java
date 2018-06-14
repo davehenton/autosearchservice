@@ -13,8 +13,17 @@ public interface MockService extends Service {
 
   /**
    * print out report.
+   *
    * @param a {@link Integer}
    * @param b {@link Integer}
    */
   void report(int a, int b);
+
+  /**
+   * Throw ServiceException if a = 0, throw RuntimeException if a > 0.
+   *
+   * @param a {@link Integer}
+   * @return {@link MockServiceResponse}
+   */
+  MockServiceResponse mockFunction(int a);
 }

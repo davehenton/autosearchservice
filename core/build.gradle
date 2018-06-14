@@ -7,5 +7,5 @@ jar {
 }
 
 dependencies {
-
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
 }

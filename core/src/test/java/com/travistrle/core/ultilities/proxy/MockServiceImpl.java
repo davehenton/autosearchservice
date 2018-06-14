@@ -25,4 +25,17 @@ public class MockServiceImpl implements MockService {
   public void report(int a, int b) {
     Logger.info("report {} {}", a, b);
   }
+
+  @Override
+  public MockServiceResponse mockFunction(int a) {
+    if (a == 0) {
+      throw new ServiceException(MockServiceError.MOCK_SERVICE_ERROR);
+    } else if (a > 0) {
+      throw new IllegalArgumentException("test runtime exception");
+    } else {
+      MockServiceResponse mockServiceResponse = new MockServiceResponse();
+      mockServiceResponse.setMockValue(8888);
+      return mockServiceResponse;
+    }
+  }
 }
