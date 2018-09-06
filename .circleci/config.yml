@@ -8,7 +8,7 @@ jobs:
         # Customize the JVM maximum heap limit
         JVM_OPTS: -Xmx3200m
         TERM: dumb
-        CC_TEST_REPORTER_ID: 549e9c4be0ba531f72b6444d871043e07f5eb6ce6dd9f5d5cffcf619892fed13
+        CC_TEST_REPORTER_ID: 730ea5b545a711f4850d0c3e6dfcc60569cc5d62ac8cde7c264dbdbd53ec0080
     docker:
       - image: circleci/openjdk:8-jdk
     working_directory: ~/repo
